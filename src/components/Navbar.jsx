@@ -1,16 +1,17 @@
 import logo from "../assets/logo.png"
 import styled from "styled-components"
+import { Link } from "react-router-dom"
 
 export default function Navbar() {
   return (
     <Container>
       <Header>
-        <Logo>
+        <Logo to="/">
           <img src={logo} />
           ShutterCamp
         </Logo>
 
-        <AddPictureButton className="add-picture">+</AddPictureButton>
+        <AddPictureButton to="/add-image" className="add-picture">+</AddPictureButton>
       </Header>
     </Container>
   )
@@ -28,18 +29,25 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-const Logo = styled.div`
+const Logo = styled(Link)`
   font-size: 42px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  text-decoration: none;
+  color: black;
   img {
-  width: 80px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
+    width: 80px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
 `
-const AddPictureButton = styled.button`
+const AddPictureButton = styled(Link)`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   background-color: #3da7e4;
   color: white;
   width: 50px;
