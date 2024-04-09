@@ -1,75 +1,35 @@
 import styled from "styled-components"
+import axios from "axios"
+import { useEffect, useState } from "react";
 
 export default function ExplorePage() {
+  const [images, setImages] = useState(null);
+
+  useEffect(() => {
+    const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/shuttercamp/images");
+
+    promise.then((response) => setImages(response.data));
+
+    promise.catch((error) => console.log(error.response.data));
+  }, []);
+
+  if (images === null) {
+    return <div>Carregando...</div>
+  }
+
   return (
     <div>
       <Wrapper>
         <Images>
-
-          <Image>
-            <img src="https://catracalivre.com.br/wp-content/uploads/2018/07/mirante-do-mangabeiras-suzana-montandon-pbh.jpg" />
-            <div>
-              <div>Belo Horizonte, a melhor cidade do Brasil</div>
-            </div>
-          </Image>
-
-          <Image>
-            <img src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YnJhemlsfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80" />
-            <div>
-              <div>Rio de Janeiro, a segunda melhor cidade do Brasil</div>
-            </div>
-          </Image>
-
-          <Image>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwn19Sw5BGI0bAdzoGJfPB51fs2m10N-IQ0vgdTA8QtA&s" />
-            <div>
-              <div>Vila da Folha</div>
-            </div>
-          </Image>
-
-          <Image>
-            <img src="https://images.unsplash.com/photo-1546527868-ccb7ee7dfa6a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8NHx8fGVufDB8fHx8&w=1000&q=80" />
-            <div>
-              <div>Catioro que não podia faltar</div>
-            </div>
-          </Image>
-
-          <Image>
-            <img src="https://c4.wallpaperflare.com/wallpaper/37/269/205/grass-cat-kitty-garden-wallpaper-preview.jpg" />
-            <div>
-              <div>Claro que ia ter gatíneo também</div>
-            </div>
-          </Image>
-
-          <Image>
-            <img src="https://cdn.checkinweb.com.br/img/161/slides/xl_pousada-e-em-cumuruxatiba-bahia-5.png" />
-            <div>
-              <div>Cumuruxatiba, a melhor praia do Brasil</div>
-            </div>
-          </Image>
-
-          <Image>
-            <img src="https://feriasnordeste.com.br/fotos/blog/2019/junho/caraiva-praia.jpg" />
-            <div>
-              <div>Céu estrelado na praia</div>
-            </div>
-          </Image>
-
-          <Image>
-            <img src="https://i.imgur.com/Lwtsg7K.jpg" />
-            <div>
-              <div>Girassol com fundo desfocado</div>
-            </div>
-          </Image>
-
-          <Image>
-            <img src="https://i.imgur.com/kNX7IIf.jpeg" />
-            <div>
-              <div>Bebezinhos super fofinhos</div>
-            </div>
-          </Image>
-
-        </Images>         
+          {images.map(img => (
+            <Image key={img.id}>
+              <img src={img.url} />
+              <div>
+                <div>{img.name}</div>
+              </div>
+            </Image>
+          ))}
+        </Images>
       </Wrapper>
     </div>
   );
