@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import axios from "axios"
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function ExplorePage() {
   const [images, setImages] = useState(null);
@@ -22,7 +23,7 @@ export default function ExplorePage() {
       <Wrapper>
         <Images>
           {images.map(img => (
-            <Image key={img.id}>
+            <Image key={img.id} to={`/image/${img.id}`}>
               <img src={img.url} />
               <div>
                 <div>{img.name}</div>
@@ -43,7 +44,7 @@ const Wrapper = styled.div`
   justify-content: center;
 `
 const Images = styled.div`
- width: 100%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -54,7 +55,7 @@ const Images = styled.div`
     max-width: 380px;
   }
 `
-const Image = styled.div`
+const Image = styled(Link)`
   width: 100%;
   max-width: 380px;
   height: 216px;

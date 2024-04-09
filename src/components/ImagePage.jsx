@@ -1,17 +1,32 @@
 import styled from "styled-components"
+import { useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 export default function ImagePage() {
+  const [image, setImage] = useState(null)
+  const { imageId } = useParams()
+
+  useEffect(() => {
+    axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/shuttercamp/images/${imageId}`)
+      .then(res => setImage(res.data))
+      .catch(err => console.log(err.response.data))
+  }, [])
+
+  if (image === null) {
+    return <div>Carregando...</div>
+  }
+
   return (
     <div>
       <Wrapper>
         <TopSection>
           <Image>
-            <img src="https://catracalivre.com.br/wp-content/uploads/2018/07/mirante-do-mangabeiras-suzana-montandon-pbh.jpg" />
+            <img src={image.url} />
           </Image>
 
           <Info>
-            <Title>Belo Horizonte, a melhor cidade do Brasil</Title>
-            <div>Foto tirada do Mirante do Mangabeiras, localizado na melhor cidade do Brasil no melhor estado no Brasil.</div>
+            <Title>{image.name}</Title>
           </Info>
         </TopSection>
       </Wrapper>
