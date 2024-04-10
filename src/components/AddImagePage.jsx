@@ -1,25 +1,62 @@
+import { useState } from "react"
 import styled from "styled-components"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 export default function AddImagePage() {
+  const [name, setName] = useState("")
+  const [description, setDescription] = useState("")
+  const [url, setUrl] = useState("")
+  const navigate = useNavigate()
+
+  function submitForm(event) {
+    event.preventDefault()
+    const body = { name, description, url }
+
+    axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/shuttercamp/images", body)
+      .then(res => navigate("/"))
+      .catch(err => console.log(err.response.data))
+  }
+
   return (
     <div>
       <Wrapper>
-        <InputGroup>
-          <Title>Nome</Title>
-          <input type="text" />
-        </InputGroup>
+        <form onSubmit={submitForm}>
+          <InputGroup>
+            <Title htmlFor="name">Nome</Title>
+            <input
+              id="name"
+              required
+              type="text"
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
+          </InputGroup>
 
-        <InputGroup>
-          <Title>Descrição</Title>
-          <input type="text" />
-        </InputGroup>
+          <InputGroup>
+            <Title htmlFor="description">Descrição</Title>
+            <input
+              id="description"
+              required
+              type="text"
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+            />
+          </InputGroup>
 
-        <InputGroup>
-          <Title>URL da Imagem</Title>
-          <input type="text" />
-        </InputGroup>
+          <InputGroup>
+            <Title htmlFor="url">URL da Imagem</Title>
+            <input
+              id="url"
+              required
+              type="text"
+              value={url}
+              onChange={e => setUrl(e.target.value)}
+            />
+          </InputGroup>
 
-        <SaveButton disabled={true}>Adicionar Imagem</SaveButton>
+          <SaveButton type="submit">Adicionar Imagem</SaveButton>
+        </form>
       </Wrapper>
     </div>
   )
@@ -58,7 +95,7 @@ const InputGroup = styled.div`
     border-radius: 5px;
   }
 `
-const Title = styled.div`
+const Title = styled.label`
   margin-bottom: 5px;
   font-size: 22px;
 `
